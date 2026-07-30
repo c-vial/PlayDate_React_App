@@ -1,23 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import Button from "./components/button/Button";
 
 function App() {
+  const [choice, setChoice] = useState("No choice selected");
+
+  const handleLike = () => {
+    setChoice("Would Like to Play With");
+  };
+
+  const handleIndifferent = () => {
+    setChoice("Indifferent");
+  };
+
+  const handleDislike = () => {
+    setChoice("Would Not Like to Play With");
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>DiceDate Work in Progress</h1>
+
+      <p>Find local gamers to play games with.</p>
+
+      <div className="team-members">
+        <h2>Team Members</h2>
+        <p>Horace Vial</p>
+        <p>James Ash</p>
+        <p>Dustin Pulu</p>
+      </div>
+
+
+      <h2>Choice: {choice}</h2>
+
+      <Button
+        label="Would Like to Play With"
+        onClick={handleLike}
+      />
+
+      <Button
+        label="Indifferent"
+        onClick={handleIndifferent}
+      />
+
+      <Button
+        label="Would Not Like to Play With"
+        onClick={handleDislike}
+      />
     </div>
   );
 }
