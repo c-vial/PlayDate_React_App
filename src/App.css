@@ -1,38 +1,129 @@
-.App {
-  text-align: center;
+* {
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+html,
+body,
+#root {
+  min-height: 100%;
+  margin: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(
+    to bottom,
+    #53b7b0 0%,
+    #4f8795 35%,
+    #645373 65%,
+    #6d155e 100%
+  );
+  background-attachment: fixed;
 }
 
-.App-header {
-  background-color: #282c34;
+.app {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 15px;
+}
+
+.profile-card {
+  width: 100%;
+  max-width: 420px;
+  min-height: 760px;
+  padding: 35px 28px;
+  text-align: center;
+  background: transparent;
+}
+
+.profile-picture {
+  width: 145px;
+  height: 145px;
+  margin: 0 auto 25px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  background-color: #dddddd;
+  border: 4px solid white;
+  border-radius: 50%;
+  color: #333333;
+  font-size: 14px;
+}
+
+.dice-date-logo {
+  display: block;
+  width: 290px;
+  max-width: 100%;
+  margin: 0 auto 28px;
+  border-radius: 50%;
+}
+
+.profile-description {
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: rgba(255, 255, 255, 0.92);
+  border-radius: 8px;
+}
+
+.profile-description h2 {
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.profile-description p {
+  margin: 8px 0;
+}
+
+.choice-result {
+  min-height: 24px;
   color: white;
+  font-size: 17px;
 }
 
-.App-link {
-  color: #61dafb;
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.button-group button {
+  flex: 1;
+  padding: 11px 8px;
+  border: none;
+  border-radius: 22px;
+  background-color: #ff9900;
+  color: #111111;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.button-group button:hover {
+  background-color: #ffb13b;
+  transform: translateY(-2px);
+}
+
+.button-group button:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 500px) {
+  .app {
+    padding: 20px 12px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .profile-card {
+    min-height: auto;
+    padding: 25px 18px;
+  }
+
+  .dice-date-logo {
+    width: 240px;
+  }
+
+  .button-group {
+    flex-direction: column;
   }
 }
