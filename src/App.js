@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import "./App.css";
 import Button from "./components/button/Button";
 import Login from "./components/login/Login";
+import CreateAccount from "./components/createaccount/CreateAccount";
 
 function App() {
   const [user, setUser] = useState(null);
   const [choice, setChoice] = useState("No choice selected");
+  const [showCreateAccount, setShowCreateAccount] = useState(false);
 
   const handleLogin = (username) => {
     setUser(username);
@@ -24,13 +26,29 @@ function App() {
   };
 
   if (!user) {
-    return <Login onLogin={handleLogin} />;
+  if (showCreateAccount) {
+    return (
+      <CreateAccount
+        onCreateAccount={handleLogin}
+        onBack={() => setShowCreateAccount(false)}
+      />
+    );
   }
+
+  return (
+    <Login
+      onLogin={handleLogin}
+      onCreateAccount={() => setShowCreateAccount(true)}
+    />
+  );
+}
 
   return (
     <div className="app">
       <main className="main-content">
         <h1>DiceDate Work in Progress</h1>
+
+        <p className="welcome-message">Welcome, {user}!</p>
 
         <p className="tagline">
           Find local gamers to play games with

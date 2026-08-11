@@ -1,41 +1,39 @@
 import React, { useState } from "react";
 
-const Login = ({ onLogin, onCreateAccount }) => {
+const CreateAccount = ({ onCreateAccount, onBack }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [age, setAge] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!username || !password) {
-      setError("Please enter both username and password");
+    if (!username || !password || !age) {
+      setError("Please fill in all fields");
       return;
     }
 
-    if (username === "admin" && password === "password") {
-      setError("");
-      onLogin(username);
-    } else {
-      setError("Invalid username or password");
+    if (age < 18) {
+      setError("You must be at least 18 years old");
+      return;
     }
+
+    setError("");
+    onCreateAccount(username);
   };
 
   return (
     <div className="login-screen">
       <div className="login-card">
-        <img
-          src="/dicedatelogo.png"
-          alt="DiceDate logo"
-          className="login-logo"
-        />
+        <h1>Create Account</h1>
 
         {error && <p className="login-error">{error}</p>}
 
         <form onSubmit={handleSubmit} className="login-form">
           <input
             type="text"
-            placeholder="UserName"
+            placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -47,18 +45,26 @@ const Login = ({ onLogin, onCreateAccount }) => {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <button type="submit">Log In</button>
+          <input
+            type="number"
+            placeholder="Age"
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
+          />
+
+          <button type="submit">Create Account</button>
         </form>
 
         <button
+          type="button"
           className="create-account-button"
-          onClick={onCreateAccount}
+          onClick={onBack}
         >
-          Create Account
+          Back
         </button>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default CreateAccount;
