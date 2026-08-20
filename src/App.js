@@ -1,82 +1,114 @@
 import React, { useState } from "react";
 import "./App.css";
-import Button from "./components/button/Button";
+
 import Login from "./components/login/Login";
 import CreateAccount from "./components/createaccount/CreateAccount";
+import ProfileFeed from "./components/ProfileFeed";
+import Matches from "./components/Matches";
+import MyProfile from "./components/MyProfile";
 
 function App() {
+  // Stores the logged in user
   const [user, setUser] = useState(null);
-  const [choice, setChoice] = useState("No choice selected");
+
+  // Controls the create account screen
   const [showCreateAccount, setShowCreateAccount] = useState(false);
 
-  const handleLogin = (username) => {
-    setUser(username);
+  // Controls which screen is displayed
+  const [screen, setScreen] = useState("feed");
+
+  // Stores profiles selected with Play
+  const [matches, setMatches] = useState([]);
+
+  // Stores the user's playstyle preferences
+  const [preferences, setPreferences] = useState({
+    roleplay: 3,
+    combat: 3,
+    exploration: 3,
+    strategy: 3,
+    social: 3
+  });
+
+  const handleLogin = (account) => {
+    // Normal login only sends the username
+    if (typeof account === "string") {
+      setUser(account);
+      setScreen("feed");
+      return;
+    }
+
+    // Create Account sends username and preferences
+    setUser(account.username);
+
+    if (account.preferences) {
+      setPreferences(account.preferences);
+    }
+
+    setScreen("feed");
   };
 
-  const handleLike = () => {
-    setChoice("Would Like to Play With");
-  };
+  // Adds a profile to matches
+  const handlePlay = (profile) => {
+    setMatches((currentMatches) => {
+      const alreadyAdded = currentMatches.some(
+        (match) => match.id === profile.id
+      );
 
-  const handleIndifferent = () => {
-    setChoice("Indifferent");
-  };
+      if (alreadyAdded) {
+        return currentMatches;
+      }
 
-  const handleDislike = () => {
-    setChoice("Would Not Like to Play With");
+      return [...currentMatches, profile];
+    });
   };
 
   if (!user) {
-  if (showCreateAccount) {
+    if (showCreateAccount) {
+      return (
+        <CreateAccount
+          onCreateAccount={handleLogin}
+          onBack={() => setShowCreateAccount(false)}
+        />
+      );
+    }
+
     return (
-      <CreateAccount
-        onCreateAccount={handleLogin}
-        onBack={() => setShowCreateAccount(false)}
+      <Login
+        onLogin={handleLogin}
+        onCreateAccount={() => setShowCreateAccount(true)}
       />
     );
   }
 
   return (
-    <Login
-      onLogin={handleLogin}
-      onCreateAccount={() => setShowCreateAccount(true)}
-    />
-  );
-}
-
-  return (
     <div className="app">
       <main className="main-content">
-        <h1>DiceDate Work in Progress</h1>
+        {screen === "feed" && <ProfileFeed onPlay={handlePlay} />}
 
-        <p className="welcome-message">Welcome, {user}!</p>
+        {screen === "matches" && <Matches matches={matches} />}
 
-        <p className="tagline">
-          Find local gamers to play games with
-        </p>
-
-        <img
-          src="/dicedatelogo.png"
-          alt="DiceDate logo"
-          className="dice-date-logo"
-        />
-
-        <section className="team-members">
-          <h2>Team Members</h2>
-          <p>Horace Vial</p>
-          <p>James Ash</p>
-          <p>Dustin Pulu</p>
-        </section>
-
-        <p className="choice-result">
-          Choice: <strong>{choice}</strong>
-        </p>
-
-        <div className="button-group">
-          <Button label="No Play" onClick={handleDislike} />
-          <Button label="Indifferent" onClick={handleIndifferent} />
-          <Button label="Play" onClick={handleLike} />
-        </div>
+        {screen === "profile" && (
+          <MyProfile
+            username={user}
+            preferences={preferences}
+          />
+        )}
       </main>
+
+      {/* Navigation between main screens */}
+      <nav className="bottom-nav">
+        <button onClick={() => setScreen("feed")}>
+          Profiles
+        </button>
+
+        <button onClick={() => setScreen("matches")}>
+          Matches ({matches.length})
+        </button>
+
+        <button onClick={() => setScreen("profile")}>
+          My Profile
+        </button>
+      </nav>
     </div>
   );
 }
