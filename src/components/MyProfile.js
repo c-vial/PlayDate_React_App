@@ -1,11 +1,10 @@
 import React from "react";
+import Graphics from "./graphics/Graphic";
 
-const MyProfile = ({ username }) => {
+const MyProfile = ({ username, preferences }) => {
   return (
     <section className="my-profile-screen">
       <h1>My Profile</h1>
-
-      
 
       <div className="profile-description">
         <p>
@@ -28,6 +27,9 @@ const MyProfile = ({ username }) => {
           <strong>Availability:</strong> Evenings
         </p>
       </div>
+
+      {/* Displays the user's playstyle preferences */}
+      <Graphics preferences={preferences} />
     </section>
   );
 };

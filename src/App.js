@@ -20,8 +20,30 @@ function App() {
   // Stores profiles selected with Play
   const [matches, setMatches] = useState([]);
 
-  const handleLogin = (username) => {
-    setUser(username);
+  // Stores the user's playstyle preferences
+  const [preferences, setPreferences] = useState({
+    roleplay: 3,
+    combat: 3,
+    exploration: 3,
+    strategy: 3,
+    social: 3
+  });
+
+  const handleLogin = (account) => {
+    // Normal login only sends the username
+    if (typeof account === "string") {
+      setUser(account);
+      setScreen("feed");
+      return;
+    }
+
+    // Create Account sends username and preferences
+    setUser(account.username);
+
+    if (account.preferences) {
+      setPreferences(account.preferences);
+    }
+
     setScreen("feed");
   };
 
@@ -62,13 +84,22 @@ function App() {
     <div className="app">
       <main className="main-content">
         {screen === "feed" && <ProfileFeed onPlay={handlePlay} />}
+
         {screen === "matches" && <Matches matches={matches} />}
-        {screen === "profile" && <MyProfile username={user} />}
+
+        {screen === "profile" && (
+          <MyProfile
+            username={user}
+            preferences={preferences}
+          />
+        )}
       </main>
 
       {/* Navigation between main screens */}
       <nav className="bottom-nav">
-        <button onClick={() => setScreen("feed")}>Profiles</button>
+        <button onClick={() => setScreen("feed")}>
+          Profiles
+        </button>
 
         <button onClick={() => setScreen("matches")}>
           Matches ({matches.length})

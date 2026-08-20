@@ -6,6 +6,12 @@ const CreateAccount = ({ onCreateAccount, onBack }) => {
   const [age, setAge] = useState("");
   const [error, setError] = useState("");
 
+  const [roleplay, setRoleplay] = useState(3);
+  const [combat, setCombat] = useState(3);
+  const [exploration, setExploration] = useState(3);
+  const [strategy, setStrategy] = useState(3);
+  const [social, setSocial] = useState(3);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -14,13 +20,23 @@ const CreateAccount = ({ onCreateAccount, onBack }) => {
       return;
     }
 
-    if (age < 18) {
+    if (Number(age) < 18) {
       setError("You must be at least 18 years old");
       return;
     }
 
     setError("");
-    onCreateAccount(username);
+
+    onCreateAccount({
+      username,
+      preferences: {
+        roleplay,
+        combat,
+        exploration,
+        strategy,
+        social
+      }
+    });
   };
 
   return (
@@ -51,6 +67,75 @@ const CreateAccount = ({ onCreateAccount, onBack }) => {
             value={age}
             onChange={(e) => setAge(e.target.value)}
           />
+
+          <div className="playstyle-preferences">
+            <h2>Playstyle Preferences</h2>
+
+            <label>
+              Roleplay: {roleplay}
+              <input
+                type="range"
+                min="0"
+                max="5"
+                value={roleplay}
+                onChange={(e) =>
+                  setRoleplay(Number(e.target.value))
+                }
+              />
+            </label>
+
+            <label>
+              Combat: {combat}
+              <input
+                type="range"
+                min="0"
+                max="5"
+                value={combat}
+                onChange={(e) =>
+                  setCombat(Number(e.target.value))
+                }
+              />
+            </label>
+
+            <label>
+              Exploration: {exploration}
+              <input
+                type="range"
+                min="0"
+                max="5"
+                value={exploration}
+                onChange={(e) =>
+                  setExploration(Number(e.target.value))
+                }
+              />
+            </label>
+
+            <label>
+              Strategy: {strategy}
+              <input
+                type="range"
+                min="0"
+                max="5"
+                value={strategy}
+                onChange={(e) =>
+                  setStrategy(Number(e.target.value))
+                }
+              />
+            </label>
+
+            <label>
+              Social: {social}
+              <input
+                type="range"
+                min="0"
+                max="5"
+                value={social}
+                onChange={(e) =>
+                  setSocial(Number(e.target.value))
+                }
+              />
+            </label>
+          </div>
 
           <button type="submit">Create Account</button>
         </form>
