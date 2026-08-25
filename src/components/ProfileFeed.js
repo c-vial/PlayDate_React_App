@@ -6,7 +6,7 @@ const ProfileFeed = ({ onPlay }) => {
   // Tracks which profile is being shown
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const [lastChoice, setLastChoice] = useState("");
+  
 
   const currentProfile = profiles[currentIndex];
 
@@ -16,18 +16,15 @@ const ProfileFeed = ({ onPlay }) => {
   };
 
   const handleNoPlay = () => {
-    setLastChoice("No Play");
     moveToNextProfile();
   };
 
   const handleIndifferent = () => {
-    setLastChoice("Indifferent");
     moveToNextProfile();
   };
 
   // Saves the profile as a match
   const handlePlay = () => {
-    setLastChoice("Play");
     onPlay(currentProfile);
     moveToNextProfile();
   };
