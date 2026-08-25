@@ -4,6 +4,10 @@ const CreateAccount = ({ onCreateAccount, onBack }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [age, setAge] = useState("");
+  const [system, setSystem] = useState("D&D 5e");
+  const [role, setRole] = useState("Player");
+  const [experience, setExperience] = useState("");
+  const [availability, setAvailability] = useState("");
   const [error, setError] = useState("");
 
   const [roleplay, setRoleplay] = useState(3);
@@ -15,7 +19,15 @@ const CreateAccount = ({ onCreateAccount, onBack }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!username || !password || !age) {
+    if (
+      !username ||
+      !password ||
+      !age ||
+      !system ||
+      !role ||
+      !experience ||
+      !availability
+    ) {
       setError("Please fill in all fields");
       return;
     }
@@ -27,8 +39,14 @@ const CreateAccount = ({ onCreateAccount, onBack }) => {
 
     setError("");
 
+    // Sends the complete profile to App.js
     onCreateAccount({
       username,
+      age,
+      system,
+      role,
+      experience,
+      availability,
       preferences: {
         roleplay,
         combat,
@@ -66,6 +84,38 @@ const CreateAccount = ({ onCreateAccount, onBack }) => {
             placeholder="Age"
             value={age}
             onChange={(e) => setAge(e.target.value)}
+          />
+
+          <select
+            value={system}
+            onChange={(e) => setSystem(e.target.value)}
+          >
+            <option value="D&D 5e">D&D 5e</option>
+            <option value="Pathfinder">Pathfinder</option>
+            <option value="Call of Cthulhu">Call of Cthulhu</option>
+          </select>
+
+          <select
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+          >
+            <option value="Player">Player</option>
+            <option value="Dungeon Master">Dungeon Master</option>
+          </select>
+
+          <input
+            type="number"
+            placeholder="Years of Experience"
+            min="0"
+            value={experience}
+            onChange={(e) => setExperience(e.target.value)}
+          />
+
+          <input
+            type="text"
+            placeholder="Availability"
+            value={availability}
+            onChange={(e) => setAvailability(e.target.value)}
           />
 
           <div className="playstyle-preferences">
@@ -137,7 +187,9 @@ const CreateAccount = ({ onCreateAccount, onBack }) => {
             </label>
           </div>
 
-          <button type="submit">Create Account</button>
+          <button type="submit">
+            Create Account
+          </button>
         </form>
 
         <button

@@ -8,42 +8,50 @@ import Matches from "./components/Matches";
 import MyProfile from "./components/MyProfile";
 
 function App() {
-  // Stores the logged in user
+  // Stores the logged in username
   const [user, setUser] = useState(null);
+
+  // Stores the complete created profile
+  const [userProfile, setUserProfile] = useState(null);
 
   // Controls the create account screen
   const [showCreateAccount, setShowCreateAccount] = useState(false);
 
-  // Controls which screen is displayed
+  // Controls which main screen is displayed
   const [screen, setScreen] = useState("feed");
 
   // Stores profiles selected with Play
   const [matches, setMatches] = useState([]);
 
-  // Stores the user's playstyle preferences
-  const [preferences, setPreferences] = useState({
-    roleplay: 3,
-    combat: 3,
-    exploration: 3,
-    strategy: 3,
-    social: 3
-  });
-
   const handleLogin = (account) => {
-    // Normal login only sends the username
+    // Normal login sends only a username
     if (typeof account === "string") {
       setUser(account);
+
+      // Temporary profile for a normal login
+      setUserProfile({
+        username: account,
+        age: "",
+        system: "D&D 5e",
+        role: "Player",
+        experience: "0",
+        availability: "Evenings",
+        preferences: {
+          roleplay: 3,
+          combat: 3,
+          exploration: 3,
+          strategy: 3,
+          social: 3
+        }
+      });
+
       setScreen("feed");
       return;
     }
 
-    // Create Account sends username and preferences
+    // Create Account sends the complete profile
     setUser(account.username);
-
-    if (account.preferences) {
-      setPreferences(account.preferences);
-    }
-
+    setUserProfile(account);
     setScreen("feed");
   };
 
@@ -83,15 +91,16 @@ function App() {
   return (
     <div className="app">
       <main className="main-content">
-        {screen === "feed" && <ProfileFeed onPlay={handlePlay} />}
+        {screen === "feed" && (
+          <ProfileFeed onPlay={handlePlay} />
+        )}
 
-        {screen === "matches" && <Matches matches={matches} />}
+        {screen === "matches" && (
+          <Matches matches={matches} />
+        )}
 
         {screen === "profile" && (
-          <MyProfile
-            username={user}
-            preferences={preferences}
-          />
+          <MyProfile profile={userProfile} />
         )}
       </main>
 

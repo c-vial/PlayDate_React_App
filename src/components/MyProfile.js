@@ -1,35 +1,35 @@
 import React from "react";
 import Graphics from "./graphics/Graphic";
 
-const MyProfile = ({ username, preferences }) => {
+const MyProfile = ({ profile }) => {
   return (
     <section className="my-profile-screen">
       <h1>My Profile</h1>
 
       <div className="profile-description">
         <p>
-          <strong>Username:</strong> {username}
+          <strong>Username:</strong> {profile.username}
         </p>
 
         <p>
-          <strong>System:</strong> D&D 5e
+          <strong>System:</strong> {profile.system}
         </p>
 
         <p>
-          <strong>Role:</strong> Player
+          <strong>Role:</strong> {profile.role}
         </p>
 
         <p>
-          <strong>Experience:</strong> 0 years
+          <strong>Experience:</strong> {profile.experience} years
         </p>
 
         <p>
-          <strong>Availability:</strong> Evenings
+          <strong>Availability:</strong> {profile.availability}
         </p>
       </div>
 
-      {/* Displays the user's playstyle preferences */}
-      <Graphics preferences={preferences} />
+      {/* Displays the playstyle values chosen during account creation */}
+      <Graphics preferences={profile.preferences} />
     </section>
   );
 };
