@@ -62,10 +62,7 @@ const ProfileFeed = ({ onPlay }) => {
         <p>{currentProfile.pronouns}</p>
       </div>
 
-      <div className="profile-description">
-        <p><strong>About Me</strong></p>
-        <p>{currentProfile.about}</p>
-      </div>
+     
 
       <img
         src="/dicedatelogo.png"
